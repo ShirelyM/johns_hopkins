@@ -149,108 +149,108 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] =
         .ComparisonValue.Unsigned32 = 95,
     },
 
-    /* #1 (unused) */
+    /* #1 Capacitor A State -- 0: Charging. 1: Discharging. 2:Leaking. 3:Broken */
     {
-        .DataType                   = LC_WATCH_NOT_USED,
+        .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
-        .WatchpointOffset           = 0,
+        .MessageID                  = WHE_HK_TLM_MID,
+        .WatchpointOffset           = 15,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
         .ComparisonValue.Unsigned32 = 0,
     },
 
-    /* #2 (unused) */
+    /* #2 Capacitor B Charge -- 0-255. Represents % of safe charge. */
     {
-        .DataType                   = LC_WATCH_NOT_USED,
+        .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
-        .WatchpointOffset           = 0,
+        .MessageID                  = WHE_HK_TLM_MID,
+        .WatchpointOffset           = 16,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
         .ComparisonValue.Unsigned32 = 0,
     },
 
-    /* #3 (unused) */
+    /* #3 Capacitor B State -- 0: Charging. 1: Discharging. 2:Leaking. 3:Broken */
     {
-        .DataType                   = LC_WATCH_NOT_USED,
+        .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
-        .WatchpointOffset           = 0,
+        .MessageID                  = WHE_HK_TLM_MID,
+        .WatchpointOffset           = 17,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
         .ComparisonValue.Unsigned32 = 0,
     },
 
-    /* #4 (unused) */
+    /* #4 SBC State -- 0: Off. 1: Powered. 2: Observing. 3:Erro */
     {
-        .DataType                   = LC_WATCH_NOT_USED,
+        .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
-        .WatchpointOffset           = 0,
+        .MessageID                  = WHE_HK_TLM_MID,
+        .WatchpointOffset           = 18,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
         .ComparisonValue.Unsigned32 = 0,
     },
 
-    /* #5 (unused) */
+    /* #5 TEMP as integer -- 0-255. Temperature as an integer (truncated) e.g., 15.2 will be reported at 15. 15.9 will also be reported at 15. */
     {
-        .DataType                   = LC_WATCH_NOT_USED,
+        .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
-        .WatchpointOffset           = 0,
+        .MessageID                  = WHE_HK_TLM_MID,
+        .WatchpointOffset           = 19,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
         .ComparisonValue.Unsigned32 = 0,
     },
 
-    /* #6 (unused) */
+    /* #6 Louver State -- 0: Closed. 1: Open */
     {
-        .DataType                   = LC_WATCH_NOT_USED,
+        .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
-        .WatchpointOffset           = 0,
+        .MessageID                  = WHE_HK_TLM_MID,
+        .WatchpointOffset           = 20,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
         .ComparisonValue.Unsigned32 = 0,
     },
 
-    /* #7 (unused) */
+    /* #7 Heater State -- 0: Off. 1: On */
     {
-        .DataType                   = LC_WATCH_NOT_USED,
+        .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
-        .WatchpointOffset           = 0,
+        .MessageID                  = WHE_HK_TLM_MID,
+        .WatchpointOffset           = 21,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
         .ComparisonValue.Unsigned32 = 0,
     },
 
-    /* #8 (unused) */
+    /* #8 Active Capacitor -- 0: A. 1: B. */
     {
-        .DataType                   = LC_WATCH_NOT_USED,
+        .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
-        .WatchpointOffset           = 0,
+        .MessageID                  = WHE_HK_TLM_MID,
+        .WatchpointOffset           = 22,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
         .ComparisonValue.Unsigned32 = 0,
     },
 
-    /* #9 (unused) */
+    /* #9 Damage State -- 0: None. 1: Minor. 2: Major */
     {
-        .DataType                   = LC_WATCH_NOT_USED,
+        .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
-        .WatchpointOffset           = 0,
+        .MessageID                  = WHE_HK_TLM_MID,
+        .WatchpointOffset           = 23,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
