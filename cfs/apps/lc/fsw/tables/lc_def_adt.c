@@ -219,23 +219,7 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef __attribute__((__used__)) =
 */
 LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
 {
-    /* #0 (unused) */
-    {   .DefaultState        = LC_ACTION_NOT_USED,
-        .MaxPassiveEvents    = 0,
-        .MaxPassFailEvents   = 0,
-        .MaxFailPassEvents   = 0,
-        .RTSId               = 0,
-        .MaxFailsBeforeRTS   = 0,
-        .EventType           = CFE_EVS_INFORMATION,
-        .EventID             = 0,
-        .EventText           = { " " },
-        .RPNEquation         = { /* (WP_0) */
-                                 0,
-                                 LC_RPN_EQUAL
-                               }
-    },
-
-    /* #1 WHE Discharge Capacitor A */
+    /* #0 WHE Discharge Capacitor A */
     {
         .DefaultState        = LC_APSTATE_ACTIVE,
         .MaxPassiveEvents    = 0,
@@ -246,42 +230,63 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
         .EventType           = CFE_EVS_INFORMATION,
         .EventID             = 1001,
         .EventText           = { "Discharge Capacitor A" },
-        .RPNEquation         = { /* (WP_0) */
-                                 0,
+        .RPNEquation         = { /* (WP1) */
+                                 1,
                                  LC_RPN_EQUAL
                                }
     },
 
-    /* #2 (unused) */
+    /* #1 WHE Discharge Capacitor B */
+    {
+        .DefaultState        = LC_APSTATE_ACTIVE,
+        .MaxPassiveEvents    = 0,
+        .MaxPassFailEvents   = 0,
+        .MaxFailPassEvents   = 0,
+        .RTSId               = WHE_CAP_B_DISCHARGE_CC,
+        .MaxFailsBeforeRTS   = 1,
+        .EventType           = CFE_EVS_INFORMATION,
+        .EventID             = 1001,
+        .EventText           = { "Discharge Capacitor B" },
+        .RPNEquation         = { /* (WP2) */
+                                 2,
+                                 LC_RPN_EQUAL
+                               }
+    },
+
+    /* #2 Set WHE Capacitor B to Active when WHE Capacitor A is Discharging */
     {
         .DefaultState        = LC_ACTION_NOT_USED,
         .MaxPassiveEvents    = 0,
         .MaxPassFailEvents   = 0,
         .MaxFailPassEvents   = 0,
-        .RTSId               = 0,
+        .RTSId               = WHE_CAP_B_ACTIVE_CC,
         .MaxFailsBeforeRTS   = 0,
         .EventType           = CFE_EVS_INFORMATION,
         .EventID             = 0,
         .EventText           = { " " },
-        .RPNEquation         = { /* (WP_0) */
-                                 0,
+        .RPNEquation         = { /* (WP5 and WP11) */
+                                 5,
+                                 11,
+                                 LC_RPN_AND,
                                  LC_RPN_EQUAL
                                }
     },
 
-    /* #3 (unused) */
+    /* #3 Set WHE Capacitor A to Active when WHE Capacitor B is Discharging */
     {
         .DefaultState        = LC_ACTION_NOT_USED,
         .MaxPassiveEvents    = 0,
         .MaxPassFailEvents   = 0,
         .MaxFailPassEvents   = 0,
-        .RTSId               = 0,
+        .RTSId               = WHE_CAP_A_ACTIVE_CC,
         .MaxFailsBeforeRTS   = 0,
         .EventType           = CFE_EVS_INFORMATION,
         .EventID             = 0,
         .EventText           = { " " },
-        .RPNEquation         = { /* (WP_0) */
-                                 0,
+        .RPNEquation         = { /* (WP6 and WP12) */
+                                 6,
+                                 12,
+                                 LC_RPN_AND,
                                  LC_RPN_EQUAL
                                }
     },
