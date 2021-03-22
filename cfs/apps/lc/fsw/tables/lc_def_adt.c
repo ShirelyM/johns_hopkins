@@ -263,7 +263,7 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
         .MaxFailsBeforeRTS   = 0,
         .EventType           = CFE_EVS_INFORMATION,
         .EventID             = 0,
-        .EventText           = { " " },
+        .EventText           = { "Capacitor A began Discharging, Set Capacitor B as Active" },
         .RPNEquation         = { /* (WP5 and WP11) */
                                  5,
                                  11,
@@ -282,7 +282,7 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
         .MaxFailsBeforeRTS   = 0,
         .EventType           = CFE_EVS_INFORMATION,
         .EventID             = 0,
-        .EventText           = { " " },
+        .EventText           = { "Capacitor B began Discharging, Set Capacitor A as Active" },
         .RPNEquation         = { /* (WP6 and WP12) */
                                  6,
                                  12,
