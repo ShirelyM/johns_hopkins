@@ -137,9 +137,7 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef __attribute__((__used__)) =
 */
 LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] =
 {
-    /* Capacitor Watch Points */
-
-    /* #0 WHE Capacitor A Charge >= 60% */
+    /* #0 WHE Capacitor A Charge >= 82% */
     {
         .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_OPER_GE,
@@ -148,10 +146,10 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] =
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
-        .ComparisonValue.Unsigned32 = 60,
+        .ComparisonValue.Unsigned32 = 82,
     },
 
-    /* #1 WHE Capacitor B Charge >= 60% */
+    /* #1 WHE Capacitor B Charge >= 83% */
     {
         .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_OPER_GE,
@@ -160,10 +158,10 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] =
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
-        .ComparisonValue.Unsigned32 = 60,
+        .ComparisonValue.Unsigned32 = 83,
     },
 
-    /* #2 WHE Capacitor A Charge >= 15% */
+    /* #2 WHE Capacitor A Charge >= 12% */
     {
         .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_OPER_GE,
@@ -172,10 +170,10 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] =
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
-        .ComparisonValue.Unsigned32 = 15,
+        .ComparisonValue.Unsigned32 = 12,
     },
 
-    /* #3 WHE Capacitor B Charge >= 15% */
+    /* #3 WHE Capacitor B Charge >= 12% */
     {
         .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_OPER_GE,
@@ -184,7 +182,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] =
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
-        .ComparisonValue.Unsigned32 = 15,
+        .ComparisonValue.Unsigned32 = 12,
     },
 
     /* #4 WHE Capacitor A is Discharging */
@@ -237,8 +235,8 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] =
 
     /* #8 WHE Capacitor A is Active */
     {
-        .DataType                   = LC_WATCH_NOT_USED,
-        .OperatorID                 = LC_NO_OPER,
+        .DataType                   = LC_DATA_BYTE,
+        .OperatorID                 = LC_OPER_EQ,
         .MessageID                  = WHE_HK_TLM_MID,
         .WatchpointOffset           = 22,
         .BitMask                    = LC_NO_BITMASK,
@@ -351,7 +349,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] =
 
     /* Temperature Watch Points */
 
-    /* #16 Temperature is below 11C */
+    /* #16 Temperature is below 12C */
     {
         .DataType                   = LC_DATA_BYTE,
         .OperatorID                 = LC_OPER_LT,
@@ -360,7 +358,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] =
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
-        .ComparisonValue.Unsigned32 = 11,
+        .ComparisonValue.Unsigned32 = 12,
     },
 
     /* #17 Temperature Greater than or equal to 20C */
@@ -401,31 +399,35 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] =
 
 
 
-    /* Unused Watch Points Structs */
+    /* Watch Points added after debugging w/ COSMOS */
 
-    /* #20 (unused) */
+    /* #20 WHE Capacitor A Charge >= 72% */
     {
-        .DataType                   = LC_WATCH_NOT_USED,
-        .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
-        .WatchpointOffset           = 0,
+        .DataType                   = LC_DATA_BYTE,
+        .OperatorID                 = LC_OPER_GE,
+        .MessageID                  = WHE_HK_TLM_MID,
+        .WatchpointOffset           = 14,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
-        .ComparisonValue.Unsigned32 = 0,
+        .ComparisonValue.Unsigned32 = 72,
     },
 
-    /* #21 (unused) */
+    /* #21 WHE Capacitor B Charge >= 72% */
     {
-        .DataType                   = LC_WATCH_NOT_USED,
-        .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
-        .WatchpointOffset           = 0,
+        .DataType                   = LC_DATA_BYTE,
+        .OperatorID                 = LC_OPER_GE,
+        .MessageID                  = WHE_HK_TLM_MID,
+        .WatchpointOffset           = 16,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
         .ResultAgeWhenStale         = 0,
-        .ComparisonValue.Unsigned32 = 0,
+        .ComparisonValue.Unsigned32 = 73,
     },
+
+
+
+   /* Unused Watch Points Structs */
 
     /* #22 (unused) */
     {

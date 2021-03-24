@@ -221,7 +221,9 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
 {
     /* Thermal Action Points */
 
-    /* #0 Open Louver when temperature is greater than or equal to 12C, in order to keep the system at an ideal observation temperature w/ a 2C buffer */
+
+
+    /* #0 Open Louver when temperature is greater than or equal to 13C, in order to keep the system at an ideal observation temperature w/ a 3C buffer */
     {
         .DefaultState        = LC_APSTATE_ACTIVE,
         .MaxPassiveEvents    = 0,
@@ -242,7 +244,7 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
                                }
     },
 
-    /* #1 Close the Louver when the temperature falls below 12C, in order to keep the system from cooling down below nominal observation temperatures */
+    /* #1 Close the Louver when the temperature falls below 13C, in order to keep the system from cooling down below nominal observation temperatures */
     {
         .DefaultState        = LC_APSTATE_ACTIVE,
         .MaxPassiveEvents    = 0,
@@ -261,7 +263,7 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
                                }
     },
 
-    /* #2 Apply power to the heater if the temperature is below 12C. Keeps the system at an ideal observation temperature, w/ a 1C buffer */
+    /* #2 Apply power to the heater if the temperature is below 13C. Keeps the system at an ideal observation temperature, w/ a 13 buffer */
     {
         .DefaultState        = LC_APSTATE_ACTIVE,
         .MaxPassiveEvents    = 0,
@@ -281,20 +283,21 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
                                }
     },
 
-    /* #3 Ensure that the heater is powered off if the temperature is at 12C or greater */
+    /* #3 Ensure that the heater is powered off if the temperature is at 13 or greater */
     {
         .DefaultState        = LC_APSTATE_ACTIVE,
         .MaxPassiveEvents    = 0,
         .MaxPassFailEvents   = 0,
         .MaxFailPassEvents   = 0,
-        .RTSId               = WHE_CAP_A_ACTIVE_CC,
+        .RTSId               = WHE_THERM_HTR_OFF_CC,
         .MaxFailsBeforeRTS   = 1,
         .EventType           = CFE_EVS_INFORMATION,
         .EventID             = 1004,
-        .EventText           = { "Capacitor B began Discharging, Set Capacitor A as Active" },
-        .RPNEquation         = { /* (WP6 and WP12) */
-                                 6,
-                                 12,
+        .EventText           = { "The heater is powered OFF!" },
+        .RPNEquation         = {
+                                 16,
+                                 LC_RPN_NOT,
+                                 14,
                                  LC_RPN_AND,
                                  LC_RPN_EQUAL
                                }
@@ -340,7 +343,7 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
                                }
     },
 
-    /* #6 If neither capacitor is discharging and the SBC is not observing and the Charge of Capacitor A exceeds 60%, then discharge Capacitor A */
+   /* #6 If Capacitor A is charging, not active, and has a charge exceed 82% while the SBC is observing, then discharge Capactor A */
     {
         .DefaultState        = LC_APSTATE_ACTIVE,
         .MaxPassiveEvents    = 0,
@@ -352,13 +355,11 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
         .EventID             = 1007,
         .EventText           = { "Capacitor A is now discharging!" },
         .RPNEquation         = { 
-                                 4,
+                                 8,
                                  LC_RPN_NOT,
-                                 6,
-                                 LC_RPN_NOT,
+                                 5,
                                  LC_RPN_AND,
                                  11,
-                                 LC_RPN_NOT,
                                  LC_RPN_AND,
                                  0,
                                  LC_RPN_AND,
@@ -366,7 +367,7 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
                                }
     },
 
-    /* #7 If neither capacitor is discharging and the SBC is not observing and the Charge of Capacitor B exceeds 60%, then discharge Capacitor B */
+    /* #7 If Capacitor B is charging, not active, and has a charge exceed 82% while the SBC is observing, then discharge Capactor B */
     {
         .DefaultState        = LC_APSTATE_ACTIVE,
         .MaxPassiveEvents    = 0,
@@ -378,13 +379,10 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
         .EventID             = 1008,
         .EventText           = { "Capacitor B is now discharging!" },
         .RPNEquation         = { 
-                                 4,
-                                 LC_RPN_NOT,
-                                 6,
-                                 LC_RPN_NOT,
+                                 7,
+                                 8,
                                  LC_RPN_AND,
                                  11,
-                                 LC_RPN_NOT,
                                  LC_RPN_AND,
                                  1,
                                  LC_RPN_AND,
@@ -426,45 +424,45 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
                                }
     },
 
-    /* #10 If the SBC is powered OFF, then send a command to power ON */
+    /* #10 If the charge of Capacitor A is over the observation threshold and the charge of Capacitor B is below the threshold, while A is charging and no observation is taking place, then set Capacitor A as Active. */
     {
         .DefaultState        = LC_APSTATE_ACTIVE,
         .MaxPassiveEvents    = 0,
         .MaxPassFailEvents   = 0,
         .MaxFailPassEvents   = 0,
-        .RTSId               = WHE_POWER_SBC_CC,
+        .RTSId               = WHE_CAP_A_ACTIVE_CC,
         .MaxFailsBeforeRTS   = 1,
         .EventType           = CFE_EVS_INFORMATION,
         .EventID             = 1011,
-        .EventText           = { "The SBC has been powered ON!" },
+        .EventText           = { "Capacitor A has been set as Active!" },
         .RPNEquation         = { 
-                                 9,
+                                 21,
+                                 LC_RPN_NOT,
+                                 20,
+                                 LC_RPN_AND,
+                                 5,
+                                 LC_RPN_AND,
+                                 10,
+                                 LC_RPN_AND,
                                  LC_RPN_EQUAL
                                }
     },
 
-    /* #11 If Capacitor A is active, and both capaciutors are below 60% charge, and the active is over 15% charge, and both capacitors are charging, then start an observation if the SBC is in the Powered state */
+    /* #11 If the charge of Capacitor B is over the observation threshold and the charge of Capacitor A is below the threshold, while A is charging and no observation is taking place, then set Capacitor B as Active. */
     {
         .DefaultState        = LC_APSTATE_ACTIVE,
         .MaxPassiveEvents    = 0,
         .MaxPassFailEvents   = 0,
         .MaxFailPassEvents   = 0,
-        .RTSId               = WHE_OBS_START_CC,
+        .RTSId               = WHE_CAP_B_ACTIVE_CC,
         .MaxFailsBeforeRTS   = 1,
         .EventType           = CFE_EVS_INFORMATION,
         .EventID             = 1012,
-        .EventText           = { "An observation has been started!" },
+        .EventText           = { "Capacitor B has been set as Active!" },
         .RPNEquation         = { 
-                                 0,
+                                 20,
                                  LC_RPN_NOT,
-                                 1,
-                                 LC_RPN_NOT,
-                                 LC_RPN_AND,
-                                 8,
-                                 LC_RPN_AND,
-                                 2,
-                                 LC_RPN_AND,
-                                 5,
+                                 21,
                                  LC_RPN_AND,
                                  7,
                                  LC_RPN_AND,
@@ -474,7 +472,7 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
                                }
     },
 
-    /* #12 If Capacitor B is active, and both capaciutors are below 60% charge, and the active is over 15% charge, and both capacitors are charging, then start an observation if the SBC is in the Powered state  */
+    /* #12 If Capacitor A is active, in the charging state, and the capacitor is over the observation threshold charge, then start an observation if the SBC is powered */
     {
         .DefaultState        = LC_APSTATE_ACTIVE,
         .MaxPassiveEvents    = 0,
@@ -484,21 +482,12 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
         .MaxFailsBeforeRTS   = 1,
         .EventType           = CFE_EVS_INFORMATION,
         .EventID             = 1013,
-        .EventText           = { "An observation has been started!" },
+        .EventText           = { "An observation has been started with Capacitor A!" },
         .RPNEquation         = { 
-                                 8,
-                                 LC_RPN_NOT,
-                                 0,
-                                 LC_RPN_NOT,
-                                 LC_RPN_AND,
-                                 1,
-                                 LC_RPN_NOT,
-                                 LC_RPN_AND,
-                                 3,
-                                 LC_RPN_AND,
                                  5,
+                                 8,
                                  LC_RPN_AND,
-                                 7,
+                                 20,
                                  LC_RPN_AND,
                                  10,
                                  LC_RPN_AND,
@@ -506,7 +495,31 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
                                }
     },
 
-    /* #13 The SBC is in an unrecoverable Error state */
+    /* #13 If Capacitor B is active, in the charging state, and the capacitor is over the observation threshold charge, then start an observation if the SBC is powered */
+    {
+        .DefaultState        = LC_APSTATE_ACTIVE,
+        .MaxPassiveEvents    = 0,
+        .MaxPassFailEvents   = 0,
+        .MaxFailPassEvents   = 0,
+        .RTSId               = WHE_OBS_START_CC,
+        .MaxFailsBeforeRTS   = 1,
+        .EventType           = CFE_EVS_INFORMATION,
+        .EventID             = 1014,
+        .EventText           = { "An observation has been started with Capcitor B!" },
+        .RPNEquation         = { 
+                                 8,
+                                 LC_RPN_NOT,
+                                 7,
+                                 LC_RPN_AND,
+                                 21,
+                                 LC_RPN_AND,
+                                 10,
+                                 LC_RPN_AND,
+                                 LC_RPN_EQUAL
+                               }
+    },
+
+    /* #14 The SBC is in an unrecoverable Error state */
     {
         .DefaultState        = LC_APSTATE_ACTIVE,
         .MaxPassiveEvents    = 0,
@@ -515,27 +528,10 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] =
         .RTSId               = WHE_NOOP_CC,
         .MaxFailsBeforeRTS   = 1,
         .EventType           = CFE_EVS_INFORMATION,
-        .EventID             = 1014,
-        .EventText           = { "The SBC is in an unrecoverable ERROR state!!!" },
+        .EventID             = 1015,
+        .EventText           = { "The SBC is in an unrecoverable Error state!" },
         .RPNEquation         = { 
                                  12,
-                                 LC_RPN_EQUAL
-                               }
-    },
-
-    /* #14 (unused) */
-    {
-        .DefaultState        = LC_ACTION_NOT_USED,
-        .MaxPassiveEvents    = 0,
-        .MaxPassFailEvents   = 0,
-        .MaxFailPassEvents   = 0,
-        .RTSId               = 0,
-        .MaxFailsBeforeRTS   = 0,
-        .EventType           = CFE_EVS_INFORMATION,
-        .EventID             = 0,
-        .EventText           = { " " },
-        .RPNEquation         = { /* (WP_0) */
-                                 0,
                                  LC_RPN_EQUAL
                                }
     },
